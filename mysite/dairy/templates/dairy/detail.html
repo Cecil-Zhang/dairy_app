@@ -1,0 +1,13 @@
+{% if dairy %}
+    <p>
+        {{ dairy.datetime }}
+    </p>
+    <p>
+        {{ dairy.weather }}
+    </p>
+    <p>
+        {{ dairy.content }}
+    </p>
+{% else %}
+    <p>No dairies are available.</p>
+{% endif %}

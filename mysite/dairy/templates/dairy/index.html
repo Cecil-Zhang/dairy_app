@@ -1,0 +1,14 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'dairy/style.css' %}">
+
+<a href="{% url 'dairy:write' %}">Write</a>
+{% if dairy_list %}
+    <ul>
+    {% for dairy in dairy_list %}
+        <li><a href="/dairy/{{ dairy.id }}">{{ dairy.datetime }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No dairies are available.</p>
+{% endif %}
