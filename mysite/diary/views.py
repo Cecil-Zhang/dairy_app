@@ -3,23 +3,23 @@ from django.views import generic
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.utils import timezone
-from .models import Dairy
+from .models import Diary
 
 
 class IndexView(generic.ListView):
-    template_name = 'dairy/index.html'
-    context_object_name = 'dairy_list'
+    template_name = 'diary/index.html'
+    context_object_name = 'diary_list'
     
     def get_queryset(self):
         return Dairy.objects.all()
 
 class DetailView(generic.DetailView):
-    model = Dairy
-    template_name = 'dairy/detail.html'
+    model = Diary
+    template_name = 'diary/detail.html'
 
 class DairyForm(ModelForm):
     class Meta:
-        model = Dairy
+        model = Diary
         fields = ['weather', 'content']
 
 def write_dairy(request):
@@ -33,7 +33,7 @@ def write_dairy(request):
             model_instance.month = now.month
             model_instance.day = now.day
             model_instance.save()
-            return redirect('dairy:index')
+            return redirect('diary:index')
     else:
         form = DairyForm()
-        return render(request, 'dairy/write.html', {'form': form})
+        return render(request, 'diary/write.html', {'form': form})

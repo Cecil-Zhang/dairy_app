@@ -1,6 +1,6 @@
 from django.db import models
 
-class Dairy(models.Model):
+class Diary(models.Model):
     datetime = models.DateTimeField()
     year = models.IntegerField()
     month = models.IntegerField()
@@ -9,4 +9,4 @@ class Dairy(models.Model):
     content = models.TextField(null=True)
 
     def __str__(self):
-        return '<Dairy: Dairy at {} >'.format(self.datetime.strftime("%Y-%m-%d"))
+        return '<Diary: Dairy at {} >'.format(self.datetime.strftime("%Y-%m-%d"))
