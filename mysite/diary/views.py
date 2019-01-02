@@ -11,20 +11,20 @@ class IndexView(generic.ListView):
     context_object_name = 'diary_list'
     
     def get_queryset(self):
-        return Dairy.objects.all()
+        return Diary.objects.all()
 
 class DetailView(generic.DetailView):
     model = Diary
     template_name = 'diary/detail.html'
 
-class DairyForm(ModelForm):
+class DiaryForm(ModelForm):
     class Meta:
         model = Diary
         fields = ['weather', 'content']
 
 def write_dairy(request):
     if request.method == 'POST':
-        form = DairyForm(request.POST)
+        form = DiaryForm(request.POST)
         if form.is_valid():
             model_instance = form.save(commit=False)
             now = timezone.now()
@@ -35,5 +35,5 @@ def write_dairy(request):
             model_instance.save()
             return redirect('diary:index')
     else:
-        form = DairyForm()
+        form = DiaryForm()
         return render(request, 'diary/write.html', {'form': form})

@@ -1,14 +1,14 @@
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'dairy/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'diary/style.css' %}">
 
-<a href="{% url 'dairy:write' %}">Write</a>
-{% if dairy_list %}
+<a href="{% url 'diary:write' %}">Write</a>
+{% if diary_list %}
     <ul>
-    {% for dairy in dairy_list %}
-        <li><a href="/dairy/{{ dairy.id }}">{{ dairy.datetime }}</a></li>
+    {% for diary in diary_list %}
+        <li><a href="/diary/{{ diary.id }}">{{ diary.datetime }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>No dairies are available.</p>
+    <p>No diaries are available.</p>
 {% endif %}
