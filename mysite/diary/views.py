@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
