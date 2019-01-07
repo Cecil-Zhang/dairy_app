@@ -1,10 +1,10 @@
 # Dairy_App
-Python Dairy Web App
+Python Diary Web App
 
-pip install django
-pip install mysqlclient
+        pip install django
+        pip install mysqlclient
 
-python manage.py runserver
+        python manage.py runserver
 
 ## DB change
 1. Change your models (in models.py).
@@ -17,12 +17,12 @@ python manage.py runserver
 /home/ubuntu/git/dairy_app  
 
 ### uWSGI Unit Service
-/etc/systemd/system/emperor.uwsgi.service
+*/etc/systemd/system/emperor.uwsgi.service*
 
-** Notes: **
+**Notes:**
 - Running in uWSGI Emperor Mode
-- emperor.ini put in /etc/uwsgi/
-- app.ini file put in /etc/uwsgi/vassals
+- *emperor.ini* put in */etc/uwsgi/*
+- *app.ini* file put in */etc/uwsgi/vassals*
 
 ### Nginx Configuration
-- Configuration file in /etc/nginx/sites-available
+- Configuration file in */etc/nginx/sites-available*
