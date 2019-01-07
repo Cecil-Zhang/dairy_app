@@ -1,0 +1,16 @@
+[Unit]
+Description=Dairy Diary App running on uWSGI
+After=syslog.target
+
+[Service]
+User=www-data
+Group=www-data
+RuntimeDirectory=uwsgi
+ExecStart=/home/ubuntu/git/dairy_app/venv/bin/uwsgi --ini /etc/uwsgi/emperor.ini
+Environment="PATH=/home/ubuntu/git/dairy_app/venv/bin"
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
