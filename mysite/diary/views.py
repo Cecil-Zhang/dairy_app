@@ -20,7 +20,6 @@ def diary_list(request):
 
     elif request.method == 'POST':
         serializer = DiarySerializer(data=request.data)
-        print(serializer.initial_data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
