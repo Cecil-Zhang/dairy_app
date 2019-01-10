@@ -30,7 +30,9 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080'
+)
 
 INSTALLED_APPS = [
     'diary.apps.DiaryConfig',
@@ -130,3 +132,34 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%d %H:%M",
 }
+
+LOGIN_URL = '/user/login/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{name} {levelname} {asctime} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{name} {levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'dairy': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
+CORS_ALLOW_CREDENTIALS = True

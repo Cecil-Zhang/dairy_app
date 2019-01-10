@@ -7,7 +7,7 @@ class DiarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Diary
         fields = ('id', 'datetime', 'weather', 'content', 'year', 'month', 'day')
-        read_only_fields = ('year', 'month', 'day')
+        read_only_fields = ('id', 'year', 'month', 'day')
 
     def create(self, validated_data):
         diary = Diary()
