@@ -6,7 +6,7 @@ class DiarySerializer(serializers.ModelSerializer):
     datetime = serializers.DateTimeField()
     class Meta:
         model = Diary
-        fields = ('id', 'datetime', 'weather', 'content', 'year', 'month', 'day')
+        fields = ('id', 'datetime', 'weather', 'content', 'author', 'year', 'month', 'day')
         read_only_fields = ('id', 'year', 'month', 'day')
 
     def create(self, validated_data):
@@ -14,6 +14,7 @@ class DiarySerializer(serializers.ModelSerializer):
         diary.datetime = validated_data['datetime']
         diary.weather = validated_data['weather']
         diary.content = validated_data['content']
+        diary.author = validated_data['author']
         diary.populateYMD()
         diary.save()        
         return diary

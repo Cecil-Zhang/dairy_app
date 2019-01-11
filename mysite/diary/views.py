@@ -14,13 +14,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger('dairy.users.views')
 
-@csrf_exempt
 @api_view(['GET', 'POST'])
-# @login_required
+@login_required
+@csrf_exempt
 def diary_list(request):
-    for it in request.session.keys():
-        logger.debug(it)
-    user_id = request.session.get('_auth_user_id')
+    # logger.debug(repr(DiarySerializer()))
+    user_id = request.user.id
     if request.method == 'GET':
         diaries = Diary.objects.all().filter(author=user_id)
         if len(diaries) > 0:
@@ -30,15 +29,17 @@ def diary_list(request):
             return JsonResponse({'code': 404, 'msg': "No diary yet"})        
 
     elif request.method == 'POST':
+        data = request.data
+        data['author'] = request.user.id
         serializer = DiarySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-@csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
 @login_required
+@csrf_exempt
 def diary_detail(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -63,7 +64,9 @@ def diary_detail(request, pk):
         diary.delete()
         return HttpResponse(status=204)
 
+@api_view(['POST'])
 @login_required
+@csrf_exempt
 def write_dairy(request):
     if request.method == 'POST':
         form = DiaryForm(request.POST)
@@ -76,6 +79,3 @@ def write_dairy(request):
             model_instance.day = now.day
             model_instance.save()
             return redirect('diary:index')
-    else:
-        form = DiaryForm()
-        return render(request, 'diary/write.html', {'form': form})

@@ -161,5 +161,3 @@ LOGGING = {
         },
     },
 }
-
-CORS_ALLOW_CREDENTIALS = True

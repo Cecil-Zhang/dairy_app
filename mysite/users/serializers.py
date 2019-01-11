@@ -5,7 +5,8 @@ import logging
 logger = logging.getLogger('dairy.users.serializers')
 
 class UserSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(max_length=150)
+    username = serializers.CharField(max_length=150)  # explicitly declare to override the auto-created unique constraint
+
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name')
