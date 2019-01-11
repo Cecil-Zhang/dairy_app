@@ -38,10 +38,12 @@ def user_register(request):
         return JsonResponse(serializer.data, status=201)
     return JsonResponse(serializer.errors, status=400)
 
-@login_required
 @api_view(['GET'])
 @csrf_exempt
 def user_info(request):
-    user = User.objects.get(pk=request.user.id)
-    return JsonResponse({'id': user.id, 'username': user.username, \
-        'first_name': user.first_name, 'last_name': user.last_name}, status=200)
+    if request.user.is_authenticated:
+        user = User.objects.get(pk=request.user.id)
+        return JsonResponse({'id': user.id, 'username': user.username, \
+            'first_name': user.first_name, 'last_name': user.last_name}, status=200)
+    else:
+        return JsonResponse({'error': 'not login yet'}, status=401)
