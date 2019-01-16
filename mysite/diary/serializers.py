@@ -20,9 +20,9 @@ class DiarySerializer(serializers.ModelSerializer):
         return diary
 
     def update(self, instance, validated_data):
-        instance.datetime = validated_data.get(['datetime'], instance.datetime)
-        instance.weather = validated_data.get(['weather'], instance.weather)
-        instance.content = validated_data.get(['content'], instance.content)
+        instance.datetime = validated_data.get('datetime', instance.datetime)
+        instance.weather = validated_data.get('weather', instance.weather)
+        instance.content = validated_data.get('content', instance.content)
         instance.populateYMD()
         instance.save()
         return instance

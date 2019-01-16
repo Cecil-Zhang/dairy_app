@@ -129,9 +129,6 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATIC_URL = '/static/'
 
-REST_FRAMEWORK = {
-    'DATETIME_FORMAT': "%Y-%m-%d %H:%M",
-}
 
 LOGIN_URL = '/user/login/'
 
@@ -162,5 +159,5 @@ LOGGING = {
     },
 }
 
-# session expire in 30 mins
-SESSION_COOKIE_AGE = 1800
+# session expire in 60 mins
+SESSION_COOKIE_AGE = 3600

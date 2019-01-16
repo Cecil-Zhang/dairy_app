@@ -16,7 +16,6 @@ logger = logging.getLogger('dairy.users.views')
 
 @api_view(['GET', 'POST'])
 @login_required
-@csrf_exempt
 def diary_list(request):
     # logger.debug(repr(DiarySerializer()))
     user_id = request.user.id
@@ -39,7 +38,6 @@ def diary_list(request):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @login_required
-@csrf_exempt
 def diary_detail(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -57,7 +55,7 @@ def diary_detail(request, pk):
         serializer = DiarySerializer(diary, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
+            return JsonResponse(serializer.data, status=200)
         return JsonResponse(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
@@ -66,7 +64,6 @@ def diary_detail(request, pk):
 
 @api_view(['POST'])
 @login_required
-@csrf_exempt
 def write_dairy(request):
     if request.method == 'POST':
         form = DiaryForm(request.POST)
