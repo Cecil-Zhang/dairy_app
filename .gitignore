@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 /venv
-
+node_modules/
 # Django stuff:
 *.log
 local_settings.py

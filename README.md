@@ -12,6 +12,9 @@ Python Diary Web App
 3. Run python manage.py sqlmigrate APP_NAME IDX to view db changes
 3. Run python manage.py migrate to apply those changes to the database.
 
+## Local Run with uWSGI
+uwsgi --http :8000 --module mysite.wsgi
+
 # Environment in TecentCloud
 ### Django Directory
 /home/ubuntu/git/dairy_app  

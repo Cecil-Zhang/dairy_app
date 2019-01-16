@@ -161,3 +161,6 @@ LOGGING = {
         },
     },
 }
+
+# session expire in 30 mins
+SESSION_COOKIE_AGE = 1800
