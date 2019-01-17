@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views import generic
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.utils import timezone
@@ -20,10 +21,18 @@ def diary_list(request):
     # logger.debug(repr(DiarySerializer()))
     user_id = request.user.id
     if request.method == 'GET':
-        diaries = Diary.objects.all().filter(author=user_id)
+        diaries = Diary.objects.all().filter(author=user_id).order_by('-datetime')
         if len(diaries) > 0:
-            serializer = DiarySerializer(diaries, many=True)
-            return JsonResponse(serializer.data, safe=False)
+            page = request.GET.get('page')
+            if page is None:
+                serializer = DiarySerializer(diaries, many=True)
+            else:
+                paginator = Paginator(diaries, request.GET.get('page_size', 10))
+                serializer = DiarySerializer(paginator.page(page), many=True)
+            return JsonResponse({
+                'data': serializer.data,
+                'num_pages': paginator.num_pages
+                }, safe=False)
         else:
             return JsonResponse({'code': 404, 'msg': "No diary yet"})        
 
