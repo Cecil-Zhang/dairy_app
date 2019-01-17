@@ -129,6 +129,9 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATIC_URL = '/static/'
 
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': "%c",
+}
 
 LOGIN_URL = '/user/login/'
 
