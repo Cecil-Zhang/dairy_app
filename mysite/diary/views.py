@@ -22,19 +22,25 @@ def diary_list(request):
     user_id = request.user.id
     if request.method == 'GET':
         diaries = Diary.objects.all().filter(author=user_id).order_by('-datetime')
-        if len(diaries) > 0:
-            page = request.GET.get('page')
-            if page is None:
-                serializer = DiarySerializer(diaries, many=True)
-            else:
-                paginator = Paginator(diaries, request.GET.get('page_size', 10))
-                serializer = DiarySerializer(paginator.page(page), many=True)
-            return JsonResponse({
-                'data': serializer.data,
-                'num_pages': paginator.num_pages
-                }, safe=False)
+        if request.GET.get('year', '') != '':
+            diaries = diaries.filter(year=request.GET.get('year'))
+        if request.GET.get('month', '') != '':
+            logger.debug('month={}'.format(request.GET.get('month')))
+            diaries = diaries.filter(month=request.GET.get('month'))
+        if request.GET.get('search', '') != '':
+            diaries = diaries.filter(content__icontains=request.GET.get('search'))
+        page = request.GET.get('page')
+        if page is None:
+            serializer = DiarySerializer(diaries, many=True)
         else:
-            return JsonResponse({'code': 404, 'msg': "No diary yet"})        
+            years = Diary.objects.all().values('year').distinct()
+            paginator = Paginator(diaries, request.GET.get('page_size', 10))
+            serializer = DiarySerializer(paginator.page(page), many=True)
+        return JsonResponse({
+            'data': serializer.data,
+            'num_pages': paginator.num_pages,
+            'years': list(years)
+            }, safe=False)
 
     elif request.method == 'POST':
         data = request.data

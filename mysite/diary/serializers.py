@@ -1,9 +1,15 @@
 from .models import Diary
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 
 class DiarySerializer(serializers.ModelSerializer):
     datetime = serializers.DateTimeField()
+    weather = serializers.CharField(max_length=20, required=False)
+    year = serializers.IntegerField(read_only=True, required=False)
+    month = serializers.IntegerField(read_only=True, required=False)
+    day = serializers.IntegerField(read_only=True, required=False)
+
     class Meta:
         model = Diary
         fields = ('id', 'datetime', 'weather', 'content', 'author', 'year', 'month', 'day')
