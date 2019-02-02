@@ -9,7 +9,8 @@ from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from .serializers import DiarySerializer
-from .models import Diary
+from .models import Diary, DiaryFile
+from .forms import DiaryFileForm
 import logging
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
@@ -95,15 +96,11 @@ def diary_detail(request, pk):
 
 @api_view(['POST'])
 @login_required
-def write_dairy(request):
+def upload_file(request):
     if request.method == 'POST':
-        form = DiaryForm(request.POST)
+        form = DiaryFileForm(request.POST, request.FILES)
         if form.is_valid():
-            model_instance = form.save(commit=False)
-            now = timezone.now()
-            model_instance.datetime = now
-            model_instance.year = now.year
-            model_instance.month = now.month
-            model_instance.day = now.day
-            model_instance.save()
-            return redirect('diary:index')
+            form.save()
+            return JsonResponse({'msg': 'ok'})
+        else:
+            return JsonResponse(form.errors, status=400)

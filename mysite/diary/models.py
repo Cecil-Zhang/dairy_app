@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import FieldDoesNotExist
+import random, string
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    random_prefix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    return 'diary/images/user_{}/{}_{}'.format(instance.diary.author.id, random_prefix, filename)
 
 class Diary(models.Model):
     datetime = models.DateTimeField()
@@ -21,3 +27,7 @@ class Diary(models.Model):
         self.year = datetime.year
         self.month = datetime.month
         self.day = datetime.day
+
+class DiaryFile(models.Model):
+    diary = models.ForeignKey(Diary, related_name='pictures', on_delete=models.CASCADE)
+    file = models.FileField(upload_to = user_directory_path)

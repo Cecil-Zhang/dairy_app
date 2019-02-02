@@ -128,12 +128,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATIC_URL = '/static/'
-
+MEDIA_ROOT = os.path.join(BASE_DIR, "diary/static/diary/media/")
+MEDIA_URL = '/media/'
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%c",
 }
 
-LOGIN_URL = '/user/login/'
+LOGIN_URL = '/users/login/'
 
 LOGGING = {
     'version': 1,
@@ -153,10 +154,16 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': 'errors.log'
+        },
     },
     'loggers': {
         'dairy': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'level': 'DEBUG',
         },
     },
