@@ -5,7 +5,7 @@ import random, string
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    random_prefix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    random_prefix = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
     return 'diary/images/user_{}/{}_{}'.format(instance.diary.author.id, random_prefix, filename)
 
 class Diary(models.Model):

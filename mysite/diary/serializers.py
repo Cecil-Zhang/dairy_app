@@ -19,7 +19,7 @@ class DiarySerializer(serializers.ModelSerializer):
     #     read_only=True,
     #     slug_field='file'
     # )
-    pictures = DiaryFileSerializer(many=True, read_only=True)
+    pictures = DiaryFileSerializer(many=True, read_only=True, required=False)
 
     class Meta:
         model = Diary
