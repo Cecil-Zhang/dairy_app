@@ -94,10 +94,14 @@ def diary_detail(request, pk):
         diary.delete()
         return HttpResponse(status=204)
 
-@api_view(['POST'])
+@api_view(['PUT'])
 @login_required
 def upload_file(request):
-    if request.method == 'POST':
+    if request.method == 'PUT':
+        existing_files = DiaryFile.objects.filter(diary=request.POST.get("diary"))
+        for f in existing_files:
+            f.file.delete(False)
+            f.delete()
         form = DiaryFileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
