@@ -15,6 +15,8 @@ import logging
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.db.models.functions import Left
+from django.db.models import Count
 
 logger = logging.getLogger('dairy.users.views')
 
@@ -43,6 +45,8 @@ def diary_list(request):
             dt = datetime.strptime(request.GET.get('later_than'), settings.REST_FRAMEWORK.get('DATETIME_FORMAT'))
             # logger.debug('conver to time: {}'.format(dt))
             diaries = diaries.filter(datetime__gt=dt)
+        # max_content = request.GET.get('content_truncate', 50)
+        # diaries = diaries.annotate(truncate=Left('content', max_content), pic_count=Count('pictures'))
         order = request.GET.get('order_by', '-datetime')
         diaries = diaries.order_by(order)
         page = request.GET.get('page')
