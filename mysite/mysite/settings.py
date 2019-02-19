@@ -86,7 +86,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dairy',
         'USER': 'root',
-        'PASSWORD': 'root'
+        'PASSWORD': 'root',
+        'OPTIONS': {
+                    'charset': 'utf8mb4',
+                    'use_unicode': True, }
     }
 }
 
