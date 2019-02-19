@@ -13,7 +13,8 @@ class Diary(models.Model):
     year = models.IntegerField()
     month = models.IntegerField()
     day = models.IntegerField()
-    weather = models.CharField(max_length=20)
+    weather = models.CharField(null=True, max_length=20)
+    title = models.CharField(null=True, max_length=30)
     content = models.TextField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 

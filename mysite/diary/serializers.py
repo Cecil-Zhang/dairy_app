@@ -23,12 +23,13 @@ class DiarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Diary
-        fields = ('id', 'datetime', 'weather', 'content', 'author', 'year', 'month', 'day', 'pictures')
+        fields = ('id', 'datetime', 'weather', 'title', 'content', 'author', 'year', 'month', 'day', 'pictures')
         read_only_fields = ('id', 'year', 'month', 'day')
 
     def create(self, validated_data):
         diary = Diary()
         diary.datetime = validated_data['datetime']
+        diary.title = validated_data['title']
         diary.weather = validated_data['weather']
         diary.content = validated_data['content']
         diary.author = validated_data['author']
@@ -38,6 +39,7 @@ class DiarySerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.datetime = validated_data.get('datetime', instance.datetime)
+        instance.title = validated_data.get('title', instance.title)
         instance.weather = validated_data.get('weather', instance.weather)
         instance.content = validated_data.get('content', instance.content)
         instance.populateYMD()
