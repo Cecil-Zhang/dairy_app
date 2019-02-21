@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" charset="UTF-8"/>
+    <title>Dairy</title>
+    <style>
+        @page {
+            margin: 2cm;
+        }
+        @font-face {
+            font-family: STSong;
+            src: url('/media/fonts/stsong.ttf');
+        }
+        html {
+            font-family: STSong;
+        }
+        h2 {
+            font-size: 15pt;
+        }
+        h4 {
+            font-size: 12pt;
+        }
+        p {
+            font-size: 12pt;
+            text-indent: 30px;
+            margin:  0;
+            width: 70%;
+        }
+        .align-center {
+            text-align: center;
+        }
+    </style>
+  </head>
+
+  <body>
+    {% for diary in diaries%}
+        {% if diary.title %}
+            <h2 class="align-center">{{ diary.title }}</h2>
+            <h4 class="align-center">
+                {{ diary.datetime|date:"H:i  M,  jS  l  Y" }} &nbsp;&nbsp; {{ diary.weather }}
+            </h4>
+        {% else %}
+            <h2 class="align-center">{{ diary.datetime|date:"H:i M, jS l Y" }}</h2>
+            <p class="align-center">
+                 {{ diary.weather }}
+            </p>
+        {% endif %}
+        <br />
+        <p>
+            {{ diary.content|linebreaks }}
+        </p>
+        {% for f in diary.pictures.all %}
+            <img src="{% get_media_prefix %}{{f.file}}" />
+            <pdf:nextframe />
+        {% endfor %}
+    {% endfor %}
+  </body>
+</html>

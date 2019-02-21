@@ -12,11 +12,14 @@ from .serializers import DiarySerializer
 from .models import Diary, DiaryFile
 from .forms import DiaryFileForm
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.db.models.functions import Left
 from django.db.models import Count
+from .render import Render
+from django.views.generic import View
+from django.utils.safestring import mark_safe
 
 logger = logging.getLogger('dairy.users.views')
 
@@ -118,3 +121,36 @@ def delete_file(request, diary_id, file_id):
             f.file.delete(False)
             f.delete()
         return HttpResponse(status=204)
+
+def get_month_diaries(year, mont, line_length=40):
+    if year is None or month is None:
+        lastmonth = datetime.today().replace(day=1) - timedelta(days=1)
+        year = lastmonth.year
+        month = lastmonth.month
+    diaries = Diary.objects.all().filter(month=month, year=year).order_by('day')
+    for diary in diaries:
+        newContent = ''
+        line_count = 2
+        low = 0
+        for i in range(0, len(diary.content)):
+            if diary.content[i] == '\n':
+                line_count = 1
+            elif line_count == line_length:
+                newContent = newContent + diary.content[low:i] + '\n'
+                line_count = 0
+                low = i
+            line_count = line_count + 1
+        diary.content = newContent + diary.content[low:]
+    return diaries
+
+class MonthView(View):
+    def get(self, request):
+        diaries = get_month_diaries(request.GET.get('year'), request.GET.get('month'))
+        params = {
+            'diaries': diaries
+        }
+        format = request.GET.get('format', 'pdf')
+        if format == 'pdf':
+            return Render.render('diary/monthView.html', params)
+        else:
+            return render(request, 'diary/monthView.html', params)
