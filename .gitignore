@@ -8,5 +8,5 @@ node_modules/
 *.log
 local_settings.py
 db.sqlite3
-media/
+mysite/diary/static/diary/media/diary/
 backup/
