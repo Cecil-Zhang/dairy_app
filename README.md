@@ -1,10 +1,37 @@
 # Dairy_App
-Python Diary Web App
+Python Diary Web App (Adaptive to Phone and Computer)
+Preview at [Screenshots](https://github.com/Cecil-Zhang/dairy_app/tree/master/screenshots)
 
-        pip install -r requirements.txt
-        python manage.py migrate
-        python manage.py collectstatic
-        python manage.py runserver
+## Installation
+### Local Environment
+1. Clone source code
+    `$ git clone git@github.com:Cecil-Zhang/dairy_app.git`
+    `$ cd /path/to/dairy_app/`
+2. Create a virtual environment
+    `$ python3 -m venv venv  # create a virtual environment in root folder`
+    `$ . venv/bin/activate   # activate virtual environtment`
+3. Install python library
+    `$ pip install -r requirements.txt # install dependencies required by dairy app`
+4. Configure database
+    - Configure database connection in mysite/mysite/settings.py
+        ```DATABASES = {
+                'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': 'dairy',
+                'USER': 'root',
+                'PASSWORD': 'root',
+                'OPTIONS': {
+                            'charset': 'utf8mb4',
+                            'use_unicode': True, }
+            }
+        }```
+    - Apply DDL
+        `$ python manage.py migrate`
+5. Collect static files into static folder [STATICFILES_FINDERS](https://docs.djangoproject.com/en/2.1/intro/tutorial06/)
+    `$ python manage.py runserver`
+6. Start server
+    `$ python manage.py runserver`
+
 
 ## Apply DB change
 1. Change your models (in models.py).
@@ -14,6 +41,11 @@ Python Diary Web App
 
 ## Management command
 - Export Diary to PDF: `python manage.py exportpdf`
+
+## To set up scheduler job to export diaries as pdf
+1. `sudo crontab -e`
+2. Append `@monthly /path/to/venv/bin/python /path/to/dairy_app/mysite/manage.py exportpdf` to the crontab
+3. Then the first day in each month, all diaries in last month will be exported to `BACKUP_ROOT` configured in settings.py as pdf
 
 ## Local Run with uWSGI
 `uwsgi --http :8000 --module mysite.wsgi`
