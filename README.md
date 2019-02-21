@@ -1,5 +1,5 @@
 # Dairy_App Backend
-Python Diary Web App built on top of django + vue + bootstrap + MySQL (Adaptive to Phone and Computer)
+Python Diary Web App built on top of **Django** + **Vue** + **Bootstrap** + **MySQL** (Adaptive to Phone and Computer)
 Preview at [Screenshots](https://github.com/Cecil-Zhang/dairy_app/tree/master/screenshots)
 
 ## Installation
@@ -46,9 +46,11 @@ $ pip install -r requirements.txt # install dependencies required by dairy app
     $ python mysite/manage.py runserver
     ```
 ### Production Environment
-
+```
+ web client <-> Nginx <-> Unix Socket <-> uWSGI <-> Django
+```
 #### Dairy Configuration
-Step 1 ~ 5 in > Local Environment
+Step 1 ~ 5 in *Local Environment*
 Here we will not run development server with `manage.py`, host in WSGI server with [wsgi.py](https://github.com/Cecil-Zhang/dairy_app/tree/master/mysite/mysite/wsgi.py) instead
 
 #### uWSGI and Unix Socket Configuration
@@ -70,13 +72,17 @@ We use uWSGI as our WSGI server with its [emperor mode](https://uwsgi-docs.readt
     ```
     [uwsgi]
     chdir = /path/to/dairy_app/mysite/
-    module = mysite.wsgi.         # start of dairy_app
+    module = mysite.wsgi          # start of dairy_app
     logto = /var/log/uwsgi/%n.log # log file
     socket = /run/uwsgi/%n.sock   # unix socket file
     master = true
     vacum = true
     ```
-3. After starting, you should see a unix socket file `dairy_app.sock` in `/run/uwsgi/` and logger file in `/var/log/uwsgi`
+3. Start uWSGI
+```
+$ /path/to/dairy_app/venv/bin/uwsgi --ini /etc/uwsgi/emperor.ini
+```
+4. After starting, you should see a unix socket file `dairy_app.sock` in `/run/uwsgi/` and logger file in `/var/log/uwsgi`
 
 #### Nginx Configuration
 Use nginx as proxy server, the flow works as following
@@ -148,15 +154,15 @@ systemctl start/status/stop emperor.uwsgi.service
 ```
 
 
-## Development
-### Apply DB change
-1. Change your models (in models.py).
-2. Run python manage.py makemigrations to create migrations for those changes
-3. Run python manage.py sqlmigrate APP_NAME IDX to view db changes
-3. Run python manage.py migrate to apply those changes to the database.
+## Development Notes
+- How to apply DB change
+    1. Change your models (in models.py).
+    2. Run python manage.py makemigrations to create migrations for those changes
+    3. Run python manage.py sqlmigrate APP_NAME IDX to view db changes
+    3. Run python manage.py migrate to apply those changes to the database.
 
-### Local Run with uWSGI
-`uwsgi --http :8000 --module mysite.wsgi`
+- How to local run Django with uWSGI
+    `uwsgi --http :8000 --module mysite.wsgi`
 
 ## Management command
 - Export Diary to PDF: `python manage.py exportpdf`
