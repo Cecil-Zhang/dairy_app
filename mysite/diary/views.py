@@ -122,7 +122,7 @@ def delete_file(request, diary_id, file_id):
             f.delete()
         return HttpResponse(status=204)
 
-def get_month_diaries(year, mont, line_length=40):
+def get_month_diaries(year=None, month=None, line_length=40):
     if year is None or month is None:
         lastmonth = datetime.today().replace(day=1) - timedelta(days=1)
         year = lastmonth.year
@@ -146,6 +146,8 @@ def get_month_diaries(year, mont, line_length=40):
 class MonthView(View):
     def get(self, request):
         diaries = get_month_diaries(request.GET.get('year'), request.GET.get('month'))
+        if not diaries:
+            return JsonResponse({'msg': 'no diaries available'})
         params = {
             'diaries': diaries
         }

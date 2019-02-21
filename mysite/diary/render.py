@@ -33,7 +33,6 @@ def link_callback(uri, rel):
     Convert HTML URIs to absolute system paths so xhtml2pdf can access those
     resources
     """
-    print('link_callback({}, {})'.format(uri, rel))
     # use short variable names
     sUrl = settings.STATIC_URL      # Typically /static/
     sRoot = settings.STATIC_ROOT    # Typically /home/userX/project_static/
