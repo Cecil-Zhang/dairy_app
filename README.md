@@ -5,32 +5,46 @@ Preview at [Screenshots](https://github.com/Cecil-Zhang/dairy_app/tree/master/sc
 ## Installation
 ### Local Environment
 1. Clone source code
-    `$ git clone git@github.com:Cecil-Zhang/dairy_app.git`
-    `$ cd /path/to/dairy_app/`
+```
+$ git clone git@github.com:Cecil-Zhang/dairy_app.git
+$ cd /path/to/dairy_app/
+```
 2. Create a virtual environment
-    `$ python3 -m venv venv  # create a virtual environment in root folder`
-    `$ . venv/bin/activate   # activate virtual environtment`
+```
+$ python3 -m venv venv  # create a virtual environment in root folder
+$ . venv/bin/activate   # activate virtual environtment
+```
 3. Install python library
-    `$ pip install -r requirements.txt # install dependencies required by dairy app`
+```
+$ pip install -r requirements.txt # install dependencies required by dairy app
+```
 4. Configure database
-    - Configure database connection in mysite/mysite/settings.py
-        ```DATABASES = {
+    - Configure database connection in `mysite/mysite/settings.py`
+        ```
+        DATABASES = {
                 'default': {
                 'ENGINE': 'django.db.backends.mysql',
                 'NAME': 'dairy',
-                'USER': 'root',
-                'PASSWORD': 'root',
+                'USER': 'dairy',
+                'PASSWORD': '****',
                 'OPTIONS': {
                             'charset': 'utf8mb4',
                             'use_unicode': True, }
             }
-        }```
+        }
+        ```
     - Apply DDL
-        `$ python manage.py migrate`
+        ```
+        $ python mysite/manage.py migrate
+        ```
 5. Collect static files into static folder [STATICFILES_FINDERS](https://docs.djangoproject.com/en/2.1/intro/tutorial06/)
-    `$ python manage.py runserver`
+    ```
+    $ python mysite/manage.py runserver
+    ```
 6. Start server
-    `$ python manage.py runserver`
+    ```
+    $ python mysite/manage.py runserver
+    ```
 
 
 ## Apply DB change
