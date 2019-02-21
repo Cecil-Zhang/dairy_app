@@ -1,7 +1,7 @@
 # Dairy_App Backend
 Python Diary Web App built on top of **Django** + **Vue** + **Bootstrap** + **MySQL** (Adaptive to Phone and Computer)
 
-Preview at [Screenshots](https://github.com/Cecil-Zhang/dairy_app/tree/master/screenshots)
+See Vue Frontend [here](https://github.com/Cecil-Zhang/dairy_vue_ui)
 
 ## Installation
 ### Local Environment
