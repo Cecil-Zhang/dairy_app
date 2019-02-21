@@ -174,3 +174,6 @@ LOGGING = {
 
 # session expire in 60 mins
 SESSION_COOKIE_AGE = 3600
+
+# diary pdf export path
+BACKUP_ROOT = os.path.join(BASE_DIR, "backup/")

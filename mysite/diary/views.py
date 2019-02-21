@@ -151,6 +151,7 @@ class MonthView(View):
         }
         format = request.GET.get('format', 'pdf')
         if format == 'pdf':
+            Render.savePdf('diary/monthView.html', params, 'diaries/year_{}/month_{}.pdf'.format(diaries[0].year, diaries[0].month))
             return Render.render('diary/monthView.html', params)
         else:
             return render(request, 'diary/monthView.html', params)

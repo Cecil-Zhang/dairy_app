@@ -13,10 +13,20 @@ class Render:
         html = template.render(params)
         response = BytesIO()
         pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), response, encoding='UTF-8', link_callback=link_callback)
+
         if not pdf.err:
             return HttpResponse(response.getvalue(), content_type='application/pdf')
         else:
             return HttpResponse("Error Rendering PDF", status=400)
+
+    def savePdf(path: str, params: dict, filepath):
+        template = get_template(path)
+        html = template.render(params)
+        response = BytesIO()
+        filepath = os.path.join(settings.BACKUP_ROOT, filepath)
+        os.makedirs(filepath[:filepath.rfind('/')], exist_ok=True)
+        file = open(filepath, 'w+b')
+        pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), file, encoding='UTF-8', link_callback=link_callback)
 
 def link_callback(uri, rel):
     """

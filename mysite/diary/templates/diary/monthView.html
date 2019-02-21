@@ -52,6 +52,7 @@
         </p>
         {% for f in diary.pictures.all %}
             <img src="{% get_media_prefix %}{{f.file}}" />
+            <p class="align-center"> {{f.file}} </p>
             <pdf:nextframe />
         {% endfor %}
     {% endfor %}
