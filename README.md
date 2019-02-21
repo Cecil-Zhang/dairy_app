@@ -190,3 +190,18 @@ systemctl start/status/stop emperor.uwsgi.service
 
 ### Nginx Configuration
 - Configuration file in */etc/nginx/sites-available*
+
+# Reference
+## API List
+```
+http://localhost:8000/users/register/
+http://localhost:8000/users/login/
+http://localhost:8000/users/logout/
+http://localhost:8000/users/info/
+http://localhost:8000/users/changePassword/
+http://localhost:8000/diary/monthPdf/
+http://localhost:8000/diary/upload/
+http://localhost:8000/diary/
+http://localhost:8000/diary/<int:diary_id>/
+http://localhost:8000/diary/<int:diary_id>/files/<int:file_id>/
+```

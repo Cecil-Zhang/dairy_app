@@ -1,5 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views import generic
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
@@ -122,12 +123,14 @@ def delete_file(request, diary_id, file_id):
             f.delete()
         return HttpResponse(status=204)
 
-def get_month_diaries(year=None, month=None, line_length=40):
+def get_month_diaries(userid, year=None, month=None, line_length=40):
+    if userid is None:
+        return
     if year is None or month is None:
         lastmonth = datetime.today().replace(day=1) - timedelta(days=1)
         year = lastmonth.year
         month = lastmonth.month
-    diaries = Diary.objects.all().filter(month=month, year=year).order_by('day')
+    diaries = Diary.objects.all().filter(author=userid, month=month, year=year).order_by('day')
     for diary in diaries:
         newContent = ''
         line_count = 2
@@ -144,8 +147,10 @@ def get_month_diaries(year=None, month=None, line_length=40):
     return diaries
 
 class MonthView(View):
+    @method_decorator(login_required)
     def get(self, request):
-        diaries = get_month_diaries(request.GET.get('year'), request.GET.get('month'))
+        user_id = request.user.id
+        diaries = get_month_diaries(user_id, request.GET.get('year'), request.GET.get('month'))
         if not diaries:
             return JsonResponse({'msg': 'no diaries available'})
         params = {
@@ -153,7 +158,7 @@ class MonthView(View):
         }
         format = request.GET.get('format', 'pdf')
         if format == 'pdf':
-            Render.savePdf('diary/monthView.html', params, 'diaries/year_{}/month_{}.pdf'.format(diaries[0].year, diaries[0].month))
+            Render.savePdf('diary/monthView.html', params, 'diaries/user_{}/year_{}/month_{}.pdf'.format(user_id, diaries[0].year, diaries[0].month))
             return Render.render('diary/monthView.html', params)
         else:
             return render(request, 'diary/monthView.html', params)
