@@ -1,5 +1,6 @@
 # Dairy_App Backend
 Python Diary Web App built on top of **Django** + **Vue** + **Bootstrap** + **MySQL** (Adaptive to Phone and Computer)
+
 Preview at [Screenshots](https://github.com/Cecil-Zhang/dairy_app/tree/master/screenshots)
 
 ## Installation
@@ -46,8 +47,9 @@ $ pip install -r requirements.txt # install dependencies required by dairy app
     $ python mysite/manage.py runserver
     ```
 ### Production Environment
+Data flow illustration
 ```
- web client <-> Nginx <-> Unix Socket <-> uWSGI <-> Django
+web client <-> Nginx <-> Unix Socket <-> uWSGI <-> Django
 ```
 #### Dairy Configuration
 Step 1 ~ 5 in *Local Environment*
@@ -168,8 +170,10 @@ systemctl start/status/stop emperor.uwsgi.service
 - Export Diary to PDF: `python manage.py exportpdf`
 
 ### To set up scheduler job to export diaries as pdf
-1. `sudo crontab -e`
-2. Append `@monthly /path/to/venv/bin/python /path/to/dairy_app/mysite/manage.py exportpdf` to the crontab
+1. Create crontab task
+```sudo crontab -e```
+2. Append following task to the crontab
+```@monthly /path/to/venv/bin/python /path/to/dairy_app/mysite/manage.py exportpdf```
 3. Then the first day in each month, all diaries in last month will be exported to `BACKUP_ROOT` configured in settings.py as pdf
 
 ## Environment in TecentCloud
