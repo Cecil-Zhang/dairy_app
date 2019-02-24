@@ -28,11 +28,11 @@ class DiarySerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         diary = Diary()
-        diary.datetime = validated_data['datetime']
-        diary.title = validated_data['title']
-        diary.weather = validated_data['weather']
-        diary.content = validated_data['content']
-        diary.author = validated_data['author']
+        diary.datetime = validated_data.get('datetime')
+        diary.title = validated_data.get('title')
+        diary.weather = validated_data.get('weather')
+        diary.content = validated_data.get('content')
+        diary.author = validated_data.get('author')
         diary.populateYMD()
         diary.save()        
         return diary
