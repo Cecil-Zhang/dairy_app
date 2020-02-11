@@ -1,5 +1,5 @@
 dataclasses==0.6
-Django==2.1.4
+Django==2.2.10
 django-cors-headers==2.4.0
 django-wkhtmltopdf==3.2.0
 djangorestframework==3.9.0
